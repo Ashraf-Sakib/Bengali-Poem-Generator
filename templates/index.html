@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বাংলা কবিতা | Bangla Poem Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <header class="masthead">
+        <h1>বাংলা কবিতা</h1>
+        <p>একটি শব্দ দিন, LSTM মডেল সেই শব্দ থেকে কবিতা লিখবে।</p>
+    </header>
+
+    <main class="layout">
+        <section class="composer" aria-label="কবিতার সেটিংস">
+            <div class="field">
+                <label for="keyword-input">কবিতার বিষয়</label>
+                <input type="text" id="keyword-input" placeholder="যেমন: নদী" value="নদী" autocomplete="off"
+                    spellcheck="false">
+            </div>
+
+            <div class="chips" id="chips" role="group" aria-label="প্রস্তাবিত শব্দ">
+                <button type="button" class="chip random" id="random-btn">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="4" y="4" width="16" height="16" rx="3" />
+                        <circle cx="9" cy="9" r="1" fill="currentColor" />
+                        <circle cx="15" cy="9" r="1" fill="currentColor" />
+                        <circle cx="9" cy="15" r="1" fill="currentColor" />
+                        <circle cx="15" cy="15" r="1" fill="currentColor" />
+                    </svg>
+                    এলোমেলো শব্দ
+                </button>
+            </div>
+
+            <details class="tuning" id="tuning" open>
+                <summary>সূক্ষ্ম নিয়ন্ত্রণ</summary>
+
+                <div class="slider">
+                    <div class="slider-head">
+                        <label for="lines-input">লাইন সংখ্যা</label>
+                        <output id="lines-value" for="lines-input">4</output>
+                    </div>
+                    <input type="range" id="lines-input" min="2" max="6" value="4">
+                </div>
+
+                <div class="slider">
+                    <div class="slider-head">
+                        <label for="temp-input">Temperature</label>
+                        <output id="temp-value" for="temp-input">0.85</output>
+                    </div>
+                    <input type="range" id="temp-input" min="0.3" max="1.5" step="0.05" value="0.85">
+                    <p class="hint">কম হলে নিরাপদ কিন্তু একঘেয়ে, বেশি হলে সৃজনশীল কিন্তু এলোমেলো।</p>
+                </div>
+
+                <div class="slider">
+                    <div class="slider-head">
+                        <label for="topk-input">Top-K</label>
+                        <output id="topk-value" for="topk-input">20</output>
+                    </div>
+                    <input type="range" id="topk-input" min="5" max="50" value="20">
+                    <p class="hint">প্রতি ধাপে কতগুলো সেরা শব্দ থেকে বেছে নেওয়া হবে।</p>
+                </div>
+                <div class="field" style="margin-top: 1.2rem;">
+                    <label for="rhymeScheme" style="margin-bottom: 0.35rem;">ছন্দ ও অন্ত্যমিল (Rhyme Scheme)</label>
+                    <select id="rhymeScheme" class="select-input">
+                        <option value="auto" selected>Auto (recommended)</option>
+                        <option value="AABB">AABB (couplet)</option>
+                        <option value="none">Free verse</option>
+                    </select>
+                </div>
+            </details>
+
+            <button type="button" class="generate" id="generate-btn">কবিতা লিখুন</button>
+        </section>
+
+        <section class="stage" aria-live="polite">
+            <article class="sheet" id="sheet">
+
+                <div class="state empty" id="empty-state">
+                    <svg class="waves" viewBox="0 0 152 56" width="152" height="56" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <path d="M4 10q9-9 18 0t18 0t18 0t18 0t18 0t18 0t18 0t18 0" />
+                        <path d="M4 28q9-9 18 0t18 0t18 0t18 0t18 0t18 0t18 0t18 0" />
+                        <path d="M4 46q9-9 18 0t18 0t18 0t18 0t18 0t18 0t18 0t18 0" />
+                    </svg>
+                    <h2>আপনার কবিতা এখানে ফুটে উঠবে</h2>
+                    <p>একটি শব্দ বেছে নিয়ে "কবিতা লিখুন" চাপুন।</p>
+                </div>
+
+                <div class="state loading hidden" id="loading" role="status">
+                    <div class="skeleton" id="skeleton" aria-hidden="true"></div>
+                    <p>কবিতা লেখা হচ্ছে…</p>
+                </div>
+
+                <div class="state error-box hidden" id="error-box" role="alert"></div>
+
+                <div class="poem-container hidden" id="poem-container">
+                    <span class="model-tag">LSTM</span>
+
+                    <h2 class="poem-title" id="poem-title"></h2>
+
+                    <div class="ornament" aria-hidden="true">
+                        <svg viewBox="0 0 120 14" width="120" height="14">
+                            <path d="M0 7H48M72 7H120" stroke="currentColor" stroke-width="1" />
+                            <path d="M60 1l6 6-6 6-6-6z" fill="currentColor" />
+                        </svg>
+                    </div>
+
+                    <div class="poem-body" id="poem-body"></div>
+
+                    <dl class="stats" id="stats-grid">
+                        <div class="stat">
+                            <dt>মোট শব্দ</dt>
+                            <dd id="stat-words">—</dd>
+                        </div>
+                        <div class="stat">
+                            <dt title="Type-Token Ratio: শব্দের বৈচিত্র্য">TTR</dt>
+                            <dd id="stat-ttr">—</dd>
+                        </div>
+                        <div class="stat">
+                            <dt title="কম হলে মডেল বেশি নিশ্চিত">Perplexity</dt>
+                            <dd id="stat-ppl">—</dd>
+                        </div>
+                        <div class="stat">
+                            <dt>সময়</dt>
+                            <dd id="stat-time">—</dd>
+                        </div>
+                    </dl>
+
+                    <div class="actions">
+                        <button type="button" class="ghost" id="copy-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="9" y="9" width="11" height="11" rx="2" />
+                                <path d="M5 15V6a2 2 0 0 1 2-2h9" />
+                            </svg>
+                            <span class="label">কপি</span>
+                        </button>
+                        <button type="button" class="ghost" id="download-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M12 4v11" />
+                                <path d="m7 11 5 5 5-5" />
+                                <path d="M5 20h14" />
+                            </svg>
+                            <span class="label">ডাউনলোড (.txt)</span>
+                        </button>
+                        <button type="button" class="ghost solid" id="regenerate-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M20 11a8 8 0 1 0-2.3 5.7" />
+                                <path d="M20 4v7h-7" />
+                            </svg>
+                            <span class="label">আবার লিখুন</span>
+                        </button>
+                    </div>
+                </div>
+
+            </article>
+        </section>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

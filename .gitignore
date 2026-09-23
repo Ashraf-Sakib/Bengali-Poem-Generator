@@ -1,0 +1,143 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+.conda/
+
+# Trained models and checkpoints
+models/*
+!models/.gitkeep
+models_old/
+models_backup/
+model/
+checkpoints/
+saved_models/
+*.pt
+*.pth
+*.pkl
+*.model
+*.h5
+*.ckpt
+*.bin
+*.safetensors
+
+# Datasets
+data/*
+!data/.gitkeep
+data/*.ods
+data/*.xlsx
+data/*.xls
+data/*.csv
+data/*.zip
+data/*.tar.gz
+data/*.jsonl
+data/extracted/
+data/raw/
+
+# Generated output
+output/*
+!output/.gitkeep
+outputs/
+generated_poems.txt
+poems.json
+poem_viewer.html
+dryrun*.txt
+test_*.txt
+
+# Extra poem folders
+extracted_poems/
+extra_poems/
+poem_dataset/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# Operating system
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Logs and temp files
+*.log
+logs/
+*.tmp
+*.bak
+*.backup
+*.old
+temp/
+tmp/
+*.b64.txt
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets.json
+credentials.json
+token.json
+
+# LaTeX build artifacts
+*.aux
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Test and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+
+# Misc
+*.stackdump
+*.pid
+*.seed

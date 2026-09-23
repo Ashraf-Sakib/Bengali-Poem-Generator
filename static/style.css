@@ -1,0 +1,556 @@
+:root {
+    --night: #0c1f23;
+    --river: #12292e;
+    --river-line: #22434a;
+    --text: #eaf1ee;
+    --reed: #9bb3ad;
+    --moon: #e9efe9;
+    --ink: #12231f;
+    --ink-soft: #4b625b;
+    --paper-line: #cdd8d0;
+    --haldi: #e3a82f;
+    --haldi-deep: #a9740c;
+    --kantha: #b4423b;
+
+    --ui: 'Hind Siliguri', system-ui, sans-serif;
+    --poem: 'Tiro Bangla', 'Noto Serif Bengali', 'Hind Siliguri', serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--night);
+    color: var(--text);
+    font-family: var(--ui);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+::selection {
+    background: var(--haldi);
+    color: #1c1404;
+}
+
+:focus-visible {
+    outline: 2px solid var(--haldi);
+    outline-offset: 3px;
+}
+
+.sheet :focus-visible {
+    outline-color: var(--ink);
+}
+
+.hidden {
+    display: none !important;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* Masthead */
+
+.masthead {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: clamp(1.75rem, 5vw, 3.25rem) 1.25rem 1.75rem;
+}
+
+.masthead h1 {
+    font-family: var(--poem);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 6vw, 3.75rem);
+    line-height: 1.35;
+}
+
+.masthead p {
+    color: var(--reed);
+    max-width: 34rem;
+    margin-top: 0.25rem;
+}
+
+/* Layout */
+
+.layout {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.25rem 3rem;
+    display: grid;
+    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 860px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Composer */
+
+.composer {
+    position: sticky;
+    top: 1.5rem;
+    background: var(--river);
+    border: 1px solid var(--river-line);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+@media (max-width: 860px) {
+    .composer {
+        position: static;
+    }
+}
+
+.field label {
+    display: block;
+    color: var(--reed);
+    font-size: 0.9rem;
+}
+
+#keyword-input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid var(--river-line);
+    border-radius: 0;
+    color: var(--text);
+    font-family: var(--poem);
+    font-size: 1.75rem;
+    line-height: 1.6;
+    padding: 0.1rem 0 0.3rem;
+    transition: border-color 0.2s;
+}
+
+#keyword-input::placeholder {
+    color: #56736d;
+}
+
+#keyword-input:focus {
+    outline: none;
+    border-color: var(--haldi);
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0 1.5rem;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    color: var(--reed);
+    border: 1px solid var(--river-line);
+    border-radius: 999px;
+    padding: 0.2rem 0.85rem;
+    font-size: 0.95rem;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.chip:hover {
+    color: var(--text);
+    border-color: var(--reed);
+}
+
+.chip[aria-pressed="true"] {
+    color: var(--haldi);
+    border-color: var(--haldi);
+}
+
+.chip.random {
+    border-style: dashed;
+}
+
+.tuning {
+    border-top: 1px solid var(--river-line);
+    padding-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.tuning summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-weight: 500;
+    list-style: none;
+}
+
+.tuning summary::-webkit-details-marker {
+    display: none;
+}
+
+.tuning summary::after {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--reed);
+    border-bottom: 2px solid var(--reed);
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+}
+
+.tuning[open] summary::after {
+    transform: rotate(-135deg);
+}
+
+.slider {
+    margin-top: 1.1rem;
+}
+
+.slider-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.slider-head label {
+    font-size: 0.95rem;
+}
+
+.slider-head output {
+    color: var(--haldi);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.hint {
+    color: var(--reed);
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 22px;
+    background: transparent;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(to right, var(--haldi) var(--fill, 50%), var(--river-line) var(--fill, 50%));
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    margin-top: -7px;
+    border-radius: 50%;
+    background: var(--haldi);
+    border: 3px solid var(--river);
+    box-shadow: 0 0 0 1px var(--haldi);
+}
+
+input[type="range"]::-moz-range-track {
+    height: 4px;
+    border-radius: 4px;
+    background: var(--river-line);
+}
+
+input[type="range"]::-moz-range-progress {
+    height: 4px;
+    border-radius: 4px;
+    background: var(--haldi);
+}
+
+input[type="range"]::-moz-range-thumb {
+    box-sizing: content-box;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--haldi);
+    border: 3px solid var(--river);
+    box-shadow: 0 0 0 1px var(--haldi);
+}
+
+.select-input {
+    width: 100%;
+    background: var(--night);
+    color: var(--text);
+    border: 1px solid var(--river-line);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+    margin-top: 0.25rem;
+    transition: border-color 0.2s;
+}
+
+.select-input:focus {
+    border-color: var(--haldi);
+}
+
+.generate {
+    width: 100%;
+    background: var(--haldi);
+    color: #1c1404;
+    border: 0;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.generate:hover:not(:disabled) {
+    background: #efb63e;
+}
+
+.generate:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.generate:disabled {
+    opacity: 0.6;
+    cursor: progress;
+}
+
+/* Poem sheet */
+
+.sheet {
+    background: var(--moon);
+    color: var(--ink);
+    border-top: 4px solid var(--haldi);
+    border-radius: 4px 4px 10px 10px;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+    min-height: 560px;
+    padding: clamp(1.5rem, 5vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media (max-width: 860px) {
+    .sheet {
+        min-height: 420px;
+    }
+}
+
+.state {
+    text-align: center;
+}
+
+.empty {
+    color: var(--ink-soft);
+}
+
+.waves {
+    color: var(--haldi-deep);
+    opacity: 0.45;
+    margin-bottom: 1.25rem;
+}
+
+.empty h2 {
+    font-family: var(--poem);
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: var(--ink);
+}
+
+.loading p {
+    margin-top: 1.5rem;
+    color: var(--ink-soft);
+}
+
+.skeleton {
+    display: grid;
+    justify-items: center;
+    gap: 1.1rem;
+    max-width: 26rem;
+    margin: 0 auto;
+}
+
+.skeleton span {
+    display: block;
+    height: 0.9rem;
+    border-radius: 999px;
+    background: var(--paper-line);
+    animation: breathe 1.4s ease-in-out infinite;
+}
+
+.skeleton span:first-child {
+    height: 1.7rem;
+    margin-bottom: 0.6rem;
+}
+
+@keyframes breathe {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.error-box {
+    max-width: 30rem;
+    margin: 0 auto;
+    text-align: left;
+    border-left: 4px solid var(--kantha);
+    background: rgba(180, 66, 59, 0.08);
+    padding: 1rem 1.25rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.error-box h2 {
+    font-size: 1.1rem;
+    color: #7d2620;
+}
+
+.error-box p {
+    color: var(--ink-soft);
+    margin-top: 0.25rem;
+}
+
+.poem-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.model-tag {
+    align-self: flex-end;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    border: 1px solid var(--paper-line);
+    border-radius: 999px;
+    padding: 0.05rem 0.7rem;
+}
+
+.poem-title {
+    font-family: var(--poem);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 4.5vw, 2.7rem);
+    line-height: 1.5;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.ornament {
+    color: var(--haldi-deep);
+    margin: 0.25rem 0 0.5rem;
+}
+
+.poem-body {
+    width: fit-content;
+    max-width: 100%;
+    margin: 1.25rem auto 2.25rem;
+    font-family: var(--poem);
+    font-size: clamp(1.3rem, 2vw + 0.7rem, 1.9rem);
+    line-height: 2.05;
+    text-align: left;
+}
+
+.poem-line {
+    opacity: 0;
+    animation: ink 0.7s ease forwards;
+    animation-delay: calc(var(--i) * 170ms + 100ms);
+}
+
+.poem-line:nth-child(2n):not(:last-child) {
+    margin-bottom: 1.1rem;
+}
+
+@keyframes ink {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+        filter: blur(2px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
+
+.stats {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 0.75rem;
+    border-top: 1px solid var(--paper-line);
+    padding-top: 1.1rem;
+    margin-bottom: 1.4rem;
+    text-align: center;
+}
+
+.stat dt {
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+}
+
+.stat dd {
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid #b5c4bb;
+    border-radius: 999px;
+    padding: 0.45rem 1rem;
+    font-size: 0.95rem;
+    transition: background 0.15s;
+}
+
+.ghost:hover {
+    background: rgba(18, 35, 31, 0.07);
+}
+
+.ghost.solid {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--moon);
+}
+
+.ghost.solid:hover {
+    background: #223a34;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .poem-line {
+        animation: none;
+        opacity: 1;
+    }
+
+    .skeleton span {
+        animation: none;
+    }
+
+    * {
+        transition: none !important;
+    }
+}
