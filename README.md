@@ -19,7 +19,13 @@ A neural and statistical Bengali poetry generation system with LSTM language mod
 ### 1. Install dependencies
 
 ```
-install required dependencies 
+Install required dependencies
+torch>=2.0.0
+gensim>=4.3.0
+numpy>=1.24.0
+pandas>=1.5.0
+odfpy>=1.4.0
+flask>=2.3.0
 ```
 
 ### 2. Get trained models
